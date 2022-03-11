@@ -1,0 +1,24 @@
+{
+  "root": "apps/retail-usa-e2e",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@angular-devkit/build-angular:protractor",
+      "options": {
+        "protractorConfig": "apps/retail-usa-e2e/protractor.conf.js",
+        "devServerTarget": "retail-usa:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "retail-usa:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/retail-usa-e2e/**/*.ts"]
+      }
+    }
+  }
+}

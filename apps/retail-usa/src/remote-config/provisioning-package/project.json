@@ -1,0 +1,37 @@
+{
+  "title": "Backbase R&D retail prototype apps",
+  "name": "backbase-retail-prototypes",
+  "applications": [
+    {
+      "title": "Retail Banking Web App",
+      "name": "bb-retail-app-ang"
+    }
+  ],
+  "latestConfiguration": {
+    "targets": [
+      {
+        "name": "Web",
+        "color": "green",
+        "conditions": [
+          {
+            "name": "app.name",
+            "operation": "eq",
+            "value": "bb-retail-app-ang"
+          }
+        ]
+      }
+    ],
+    "parameters": [
+      {
+        "name": "show_contacts",
+        "value": [
+          {
+            "value": true,
+            "targetName": "Web"
+          }
+        ],
+        "fallbackValue": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+<div class="absolute-center card card--shadow-level-1 col-10 col-lg-4 col-md-6 col-xl-3">
+  <div class="card-group">
+    <bb-select-context-widget
+      data-role="user-context-selector"
+      class="card-body"
+      [pageSize]="7"
+      [includeCurrentContext]="false"
+      [showSearchAfter]="5"
+      [selectContextRedirectPage]="userContextService.getRedirectPage()"
+    >
+    </bb-select-context-widget>
+  </div>
+</div>

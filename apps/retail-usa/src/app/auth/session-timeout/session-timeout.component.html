@@ -1,0 +1,80 @@
+<bb-modal-ui [isOpen]="isOpen" [modalOptions]="modalOptions">
+  <bb-modal-header-ui>
+    <ng-template bbCustomModalHeader>
+      <bb-header-ui
+        headingType="h2"
+        i18n-heading="
+          Session timeout header|Header of the session timeout modal@@bb-session-timeout-widget.header.retail"
+        heading="Your session is about to expire"
+      >
+      </bb-header-ui>
+    </ng-template>
+  </bb-modal-header-ui>
+
+  <bb-modal-body-ui>
+    <ng-template bbCustomModalBody>
+      <span i18n="Session timeout body|Body text of the session timeout modal@@bb-session-timeout-widget.body.retail">
+        Due to inactivity your session will expire in
+      </span>
+      <ng-container [ngSwitch]="timeFormat">
+        <span
+          *ngSwitchCase="formats.Minutes"
+          i18n="
+            Session timeout minutes remaining|Formatted time for minutes only in session timeout
+            modal@@bb-session-timeout-widget.body.minutes"
+        >
+          {minutesRemaining, plural, =1 {1 minute.} other {{{minutesRemaining}} minutes,}}
+        </span>
+        <span
+          *ngSwitchCase="formats.Seconds"
+          i18n="
+            Session timeout seconds remaining|Formatted time for seconds only in session timeout
+            modal@@bb-session-timeout-widget.body.seconds"
+        >
+          {secondsRemaining, plural, =1 {1 second.} other {{{secondsRemaining}} seconds,}}
+        </span>
+        <span
+          *ngSwitchCase="formats.Full"
+          i18n="
+            Session timeout full time remaining|Formatted time for full time in session timeout
+            modal@@bb-session-timeout-widget.body.full"
+        >
+          {minutesRemaining, plural, =1 {1 minute} other {{{minutesRemaining}} minutes}}, {secondsRemaining, plural, =1
+          {1 second.} other {{{secondsRemaining}} seconds.}}
+        </span>
+      </ng-container>
+      <span
+        i18n="
+          Session timeout body|Body text of the session timeout modal@@bb-session-timeout-widget.body.continue.retail"
+      >
+        select Continue Session to stay logged in.</span
+      >
+    </ng-template>
+  </bb-modal-body-ui>
+
+  <bb-modal-footer-ui>
+    <ng-template bbCustomModalFooter>
+      <button
+        bbButton
+        type="button"
+        color="secondary"
+        data-role="session-timeout-logout-button"
+        (click)="logout()"
+        i18n="Logout button|Body text of the button that logs the user out@@bb-session-timeout-widget.logout"
+      >
+        Log Out
+      </button>
+      <button
+        bbButton
+        type="button"
+        color="primary"
+        (click)="continueSession()"
+        data-role="session-timeout-continue-session"
+        i18n="
+          Continue session button|Text of the button that continues the user session@@bb-session-timeout-widget.continue"
+      >
+        Continue Session
+      </button>
+    </ng-template>
+  </bb-modal-footer-ui>
+</bb-modal-ui>

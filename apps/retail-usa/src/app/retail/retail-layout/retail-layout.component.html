@@ -1,0 +1,86 @@
+<div
+  class="bb-layout bb-layout--horizontal-nav"
+  [ngClass]="{
+    'bb-layout--nav-expanded': layoutService.navigationExpanded$ | async,
+    'bb-layout--high-resolution-view': layoutService.isHighResolutionView$ | async
+  }"
+>
+  <!-- Topbar Area -->
+  <nav class="bb-layout__topbar">
+    <!-- Skip to content -->
+    <button
+      i18n-aria-label="
+        Move focus to beginning of content|Value for aria-label saying that this button will move the focus to the
+        beginning of the content
+      "
+      aria-label="skip to content"
+      class="bb-layout__skip-to-content"
+      (click)="$any($event).view?.window?.document?.querySelector('[role=\'main\']')?.focus()"
+      i18n="
+        Skip to content|Text to enforce the user to click to put focus on the main content
+        section@@bb-layout.topbar.skip_to_content.button"
+    >
+      Skip to Content
+    </button>
+
+    <!-- Hamburger -->
+    <button
+      class="bb-layout__nav-expand-marker"
+      aria-label="Toggle sidebar"
+      i18n-aria-label="Sidebar Toggler|Button for toggling sidebar state@@bb-layout.sidebar_toggler"
+      [attr.aria-expanded]="layoutService.navigationExpanded$ | async"
+      (click)="layoutService.toggleNav()"
+    >
+      <span class="bb-icon"></span>
+    </button>
+
+    <!-- Logo -->
+    <div class="bb-layout__branding-area">
+      <bb-logo-ui type="emblem" class="mx-4"></bb-logo-ui>
+    </div>
+
+    <!-- Navigation Items-->
+    <bb-mega-menu-nav-ui></bb-mega-menu-nav-ui>
+
+    <!-- Topbar Content Area (a.k.a. Right Topbar Area) -->
+    <div class="bb-layout__topbar-content-area">
+      <div>
+        <bb-notifications-badge
+          [allowedRoutes]="notificationsAllowedRoutes"
+          [displaySettingsButton]="true"
+        ></bb-notifications-badge>
+      </div>
+      <div>
+        <bb-user-context-menu-widget
+          [showSingleContext]="false"
+          [pageSize]="7"
+          [selectContextRedirectPage]="selectContextRedirect"
+        >
+        </bb-user-context-menu-widget>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Backdrop-->
+  <div class="bb-layout__nav-backdrop" (click)="layoutService.toggleNav()"></div>
+
+  <!--Main content area-->
+  <div class="bb-layout__main" *ngIf="routeData$ | async as routeData">
+    <div class="bb-layout__sidebar"></div>
+    <div class="bb-layout__content">
+      <div class="bb-layout__container d-block bb-block--xl mt-5" [ngClass]="routeData?.cssClasses">
+        <!--Header Area-->
+        <div class="bb-layout__main-content-header" aria-live="polite"></div>
+
+        <!-- Main Content Area -->
+        <div class="bb-layout__main-content-area">
+          <bb-notifications-popups
+            [allowedRoutes]="notificationsAllowedRoutes"
+            [pollingInterval]="30"
+          ></bb-notifications-popups>
+          <ng-content></ng-content>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

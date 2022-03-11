@@ -1,0 +1,43 @@
+<bb-modal-ui
+  class="bb-modal-container"
+  [isOpen]="$any(isModalOpen$ | async)"
+  [modalOptions]="modalOptions || defaultModalOptions"
+>
+  <bb-modal-header-ui *ngIf="showHeader">
+    <ng-template bbCustomModalHeader>
+      <div class="bb-stack bb-stack--density-xs">
+        <div class="bb-stack__item" *ngIf="modalTitleIcon">
+          <bb-icon-ui [name]="modalTitleIcon" class="bb-text-disabled bb-modal-container__header-icon"> </bb-icon-ui>
+        </div>
+
+        <div class="bb-stack__item" *ngIf="modalTitle">
+          <bb-header-ui
+            class="bb-modal-container__header-title"
+            [headingType]="modalHeadingType"
+            [heading]="modalTitle"
+          ></bb-header-ui>
+        </div>
+
+        <div class="bb-stack__item bb-stack__item--push-right" *ngIf="closeButton">
+          <button
+            bbButton
+            class="bb-modal-container__close-btn bb-text-support"
+            [circle]="true"
+            buttonSize="sm"
+            color="unstyled"
+            (click)="closeModal()"
+            aria-label="Close modal dialog"
+            i18n-aria-label="Close template detail dialog@@modal-container.close-btn"
+          >
+            <bb-icon-ui color="muted" name="clear"></bb-icon-ui>
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </bb-modal-header-ui>
+  <bb-modal-body-ui>
+    <ng-template bbCustomModalBody>
+      <router-outlet name="routable-modal-content"></router-outlet>
+    </ng-template>
+  </bb-modal-body-ui>
+</bb-modal-ui>

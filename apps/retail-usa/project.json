@@ -1,0 +1,118 @@
+{
+  "projectType": "application",
+  "root": "apps/retail-usa",
+  "sourceRoot": "apps/retail-usa/src",
+  "prefix": "bb",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/retail-usa",
+        "index": "apps/retail-usa/src/index.html",
+        "main": "apps/retail-usa/src/main.ts",
+        "polyfills": "apps/retail-usa/src/polyfills.ts",
+        "tsConfig": "apps/retail-usa/tsconfig.app.json",
+        "aot": true,
+        "assets": ["apps/retail-usa/src/favicon.ico", "apps/retail-usa/src/assets"],
+        "styles": ["apps/retail-usa/src/styles.scss"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/retail-usa/src/environments/environment.ts",
+              "with": "apps/retail-usa/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true,
+          "baseHref": "${BASE_HREF}",
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "6mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb",
+              "maximumError": "10kb"
+            }
+          ]
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "retail-usa:build:production"
+        },
+        "development": {
+          "browserTarget": "retail-usa:build:development",
+          "proxyConfig": "proxy-ret-us-l.conf.js"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "retail-usa:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/retail-usa/src/**/*.ts", "apps/retail-usa/src/**/*.html"]
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "apps/retail-usa/src/test.ts",
+        "tsConfig": "apps/retail-usa/tsconfig.spec.json",
+        "karmaConfig": "apps/retail-usa/karma.conf.js",
+        "polyfills": "apps/retail-usa/src/polyfills.ts",
+        "styles": [],
+        "scripts": [],
+        "assets": []
+      }
+    },
+    "build-docker": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "docker build -t {args.dockerRegistry}/retail-usa:{args.imageTag} --build-arg application_name=retail-usa ."
+      }
+    },
+    "push-docker": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "docker push {args.dockerRegistry}/retail-usa:{args.imageTag}"
+      }
+    },
+    "remove-docker": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "docker rmi {args.dockerRegistry}/retail-usa:{args.imageTag} --force"
+      }
+    }
+  },
+  "tags": ["scope:retail", "region:usa", "type:app"]
+}

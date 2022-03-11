@@ -1,0 +1,23 @@
+{
+  "projectType": "library",
+  "root": "libs/common-banking",
+  "sourceRoot": "libs/common-banking/src",
+  "prefix": "bb",
+  "targets": {
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "libs/common-banking/src/test.ts",
+        "tsConfig": "libs/common-banking/tsconfig.spec.json",
+        "karmaConfig": "libs/common-banking/karma.conf.js"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/common-banking/src/**/*.ts", "libs/common-banking/src/**/*.html"]
+      }
+    }
+  },
+  "tags": ["scope:shared", "region:agnostic", "type:util"]
+}

@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "projects": {
+    "common-banking": "libs/common-banking",
+    "retail-usa": "apps/retail-usa",
+    "retail-usa-e2e": "apps/retail-usa-e2e"
+  }
+}

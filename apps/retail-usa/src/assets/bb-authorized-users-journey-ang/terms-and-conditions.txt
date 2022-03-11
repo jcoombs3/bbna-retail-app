@@ -1,0 +1,6 @@
+  <h3>Generic Terms and Conditions template</h3>
+  <h4>Terms and Conditions ("Terms")</h4>
+  <p>Last updated: (add date)</p>
+  <p>Please read these Terms and Conditions ("Terms", "Terms and Conditions") carefully before using the http://www.mywebsite.com (change this) website and the My Mobile App (change this) mobile application (the "Service") operated by My Company (change this) ("us", "we", or "our").</p>
+  <p>Your access to and use of the Service is conditioned on your acceptance of and compliance with these Terms. These Terms apply to all visitors, users and others who access or use the Service.</p>
+  <p><b>By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the terms then you may not access the Service.</b></p>

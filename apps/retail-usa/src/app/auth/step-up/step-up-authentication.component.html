@@ -1,0 +1,70 @@
+<bb-modal-ui [isOpen]="isOpen" [modalOptions]="modalOptions">
+  <form name="stepUpForm" #f="ngForm" (ngSubmit)="f.valid && onConfirm(f)" data-role="step-up-modal">
+    <div class="modal-header justify-content-center">
+      <h4
+        class="modal-title"
+        data-role="step-up-title-label"
+        i18n="Authorization required|Authorization required modal title@@stepup-modal.title"
+      >
+        Authorization required
+      </h4>
+    </div>
+    <bb-modal-body-ui>
+      <ng-template bbCustomModalBody>
+        <bb-alert-ui
+          *ngIf="isPinInValid"
+          [dismissible]="false"
+          modifier="error"
+          title="Code is incorrect. Try again."
+          i18n-title="Invalid pin|Stepup modal invalid pin error@@stepup-modal.invalid-pin"
+        >
+        </bb-alert-ui>
+        <div
+          class="d-flex justify-content-center text-muted"
+          data-role="step-up-subtitle-label"
+          i18n="Type your personal secure code to continue|Modal subtitle@@stepup-modal.subtitle"
+        >
+          Type your personal secure code to continue
+        </div>
+        <div class="row d-flex justify-content-center mt-3">
+          <div class="col-1 px-2" *ngFor="let inputChar of charsArray">
+            <input
+              type="password"
+              class="form-control px-0 text-center"
+              [maxLength]="1"
+              required
+              [attr.data-role]="'step-up-input-box-' + inputChar"
+              [name]="'char-' + inputChar"
+              ngModel
+              autocomplete
+              (input)="onInput(inputChar)"
+              #char
+            />
+          </div>
+        </div>
+      </ng-template>
+    </bb-modal-body-ui>
+    <div class="modal-footer justify-content-center">
+      <button
+        type="reset"
+        bbButton
+        color="secondary"
+        class="mx-3"
+        (click)="onCancel()"
+        data-role="step-up-cancel-button"
+      >
+        <ng-container i18n="Cancel|Cancel button label@@stepup-modal.btn.cancel">Cancel</ng-container>
+      </button>
+      <button
+        type="submit"
+        bbButton
+        color="success"
+        class="mx-3"
+        [disabled]="!f.valid"
+        data-role="step-up-confirm-button"
+      >
+        <ng-container i18n="Confirm|Confirm button label@@stepup-modal.btn.confirm">Confirm</ng-container>
+      </button>
+    </div>
+  </form>
+</bb-modal-ui>
