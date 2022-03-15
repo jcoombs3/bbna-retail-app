@@ -1,0 +1,63 @@
+<div *ngIf="!config?.hidden" class="bb-dynamic-input form-group" [formGroup]="group" [ngClass]="options?.cssClasses">
+  <div>
+    <label
+      class="bb-dynamic-input__label"
+      [id]="inputEl?.id + '__label'"
+      [textContent]="options?.label || ''"
+      #labelElem
+    ></label>
+    <span
+      class="bb-dynamic-input__helper-text bb-text-support"
+      *ngIf="options?.helperText"
+      [textContent]="options?.helperText"
+    >
+    </span>
+    <div class="bb-block bb-block--sm">
+      <bb-input-datepicker-ui
+        [formControlName]="config.name"
+        [minDate]="options.minDate"
+        [maxDate]="options.maxDate"
+        [overrideDateFormat]="options.overrideDateFormat"
+        [placeholder]="options.placeholder"
+        [btnColor]="options.btnColor || 'link'"
+        [clickOpen]="options.clickOpen || false"
+        [focusOpen]="options.focusOpen || false"
+        [icon]="options.icon || 'calendar'"
+        [iconColor]="options.iconColor"
+        [iconSize]="options.iconSize || 'md'"
+        [markDisabled]="options.markDisabled"
+        [navigation]="options.navigation || 'arrows'"
+        [placement]="options.placement || 'bottom-left'"
+        [rangeSelection]="options.rangeSelection || false"
+        [firstDayOfWeek]="options.firstDayOfWeek"
+        [readonly]="options.readonly || false"
+        [bbDynamicAriaAttribute]="{
+          __error: control?.touched && control?.invalid,
+          __desc: options?.description
+        }"
+        [attr.data-role]="config.name"
+        [aria-labelledby]="inputEl?.id + '__label'"
+        #inputEl
+      >
+      </bb-input-datepicker-ui>
+    </div>
+
+    <bb-payord-validation-message
+      [control]="group?.controls[config.name]"
+      [validationMessages]="options?.validationMessages"
+      [label]="options?.label"
+      [id]="inputEl?.id + '__error'"
+    ></bb-payord-validation-message>
+
+    <div
+      class="bb-dynamic-input__desc bb-text-support bb-subtitle"
+      [attr.aria-hidden]="!options?.description"
+      [hidden]="!options?.description"
+      [id]="inputEl?.id + '__desc'"
+      [textContent]="options?.description || ''"
+      #descElem
+    ></div>
+  </div>
+</div>
+
+<div>{{ dates | json }}</div>
