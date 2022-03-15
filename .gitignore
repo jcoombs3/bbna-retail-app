@@ -67,3 +67,5 @@ openapitools.json
 prebuilt.zip
 test-results/
 playwright-report/
+
+.angular
