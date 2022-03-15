@@ -22,7 +22,7 @@ import {
   minValueTwoValidator,
   maxValueTwoHundredValidator,
 } from '@backbase/payment-orders-ang';
-import { PayordDateComponent } from '../components/payord-date.component';
+import { ExcludedDatesComponent } from '../components/excluded-dates.component';
 
 export const customScheduleConfig: PaymentFormGroup = {
   name: PaymentBaseFields.schedule,
@@ -194,6 +194,6 @@ export const INTERNAL_TRANSFER: PaymentTypeConfig = {
     onDestroy: internalTransferOnDestroyHook,
   },
   customFields: {
-    customDate: PayordDateComponent,
+    customDate: ExcludedDatesComponent,
   },
 };
