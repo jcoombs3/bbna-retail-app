@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { RestrictedDatesHttpService, RestrictedDates } from '@backbase/transfers-dates-http-ang';
 
 @Injectable()
 export class ExcludedDatesService {
@@ -7,8 +8,16 @@ export class ExcludedDatesService {
   startDate = new Date().toISOString();
   endDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString();
 
+  constructor(private restrictedDatesHttpService: RestrictedDatesHttpService) {
+    this.restrictedDatesHttpService.restrictedDatesGet().subscribe((dates: RestrictedDates) => {
+      this.startDate = dates.startDate;
+      this.endDate = dates.endDate;
+      this.excludedDates = dates.restrictedDates;
+    });
+  }
+
   isDateValid(date: string) {
-    return this.excludedDates.includes(date);
+    return (this.excludedDates || []).includes(date);
   }
 
   excludedDateValidator(): ValidatorFn {

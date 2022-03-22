@@ -18,7 +18,8 @@
     "esModuleInterop": true,
     "paths": {
       "@backbase/common-banking": ["libs/common-banking/src/index.ts"],
-      "@backbase/common-transfers": ["libs/common-transfers/src/index.ts"]
+      "@backbase/common-transfers": ["libs/common-transfers/src/index.ts"],
+      "@backbase/transfers-dates-http-ang": ["libs/transfers-dates-http-ang/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
