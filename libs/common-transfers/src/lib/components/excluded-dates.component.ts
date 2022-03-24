@@ -32,7 +32,7 @@ export class ExcludedDatesComponent implements PaymentFormField, OnInit, OnDestr
     },
     {
       name: 'futureDate',
-      message: 'Start date cannot be past this date',
+      message: 'Start date cannot be this far in the future',
     },
   ];
   classes = ['d-inline-block', 'col-md-6', 'align-top'];
@@ -61,7 +61,6 @@ export class ExcludedDatesComponent implements PaymentFormField, OnInit, OnDestr
   }
 
   markDisabled(ngb: NgbDate) {
-    console.log(this.validationControl, this.control);
     const { year, month, day } = ngb;
     const date = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
     return this.excludedDateService.isDateValid(date);
@@ -69,12 +68,12 @@ export class ExcludedDatesComponent implements PaymentFormField, OnInit, OnDestr
 
   get minDate(): NgbDateStruct {
     const today = new Date(this.excludedDateService.startDate);
-    return { year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() };
+    return { year: today.getUTCFullYear(), month: today.getUTCMonth() + 1, day: today.getUTCDate() };
   }
 
   get maxDate(): NgbDateStruct {
     const today = new Date(this.excludedDateService.endDate);
-    return { year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() };
+    return { year: today.getUTCFullYear(), month: today.getUTCMonth() + 1, day: today.getUTCDate() };
   }
 
   ngOnDestroy() {

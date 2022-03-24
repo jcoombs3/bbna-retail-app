@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { RestrictedDatesHttpService, RestrictedDates } from '@backbase/transfers-dates-http-ang';
+import { RestrictedDatesHttpService, RestrictedDates } from '../../../../transfers-dates-http-ang/src';
 
 @Injectable()
 export class ExcludedDatesService {
-  excludedDates = ['2022-02-10', '2022-02-11', '2022-02-12', '2022-02-13'];
-  startDate = new Date().toISOString();
+  excludedDates = [];
+  startDate = new Date().toString();
   endDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString();
 
   constructor(private restrictedDatesHttpService: RestrictedDatesHttpService) {
@@ -17,15 +17,15 @@ export class ExcludedDatesService {
   }
 
   isDateValid(date: string) {
-    return (this.excludedDates || []).includes(date);
+    return this.excludedDates.includes(date);
   }
 
   excludedDateValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const selectedDate = new Date(control.value);
-      var month = selectedDate.getUTCMonth() + 1;
-      var day = selectedDate.getUTCDate();
-      var year = selectedDate.getUTCFullYear();
+      let month = selectedDate.getUTCMonth() + 1;
+      let day = selectedDate.getUTCDate();
+      let year = selectedDate.getUTCFullYear();
       return this.isDateValid(`${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`)
         ? { excludedDate: { value: control.value } }
         : null;
@@ -35,7 +35,7 @@ export class ExcludedDatesService {
   pastDateValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const selectedDate = new Date(control.value).setHours(0, 0, 0, 0);
-      const startDate = new Date(this.startDate).setHours(0, 0, 0, 0);
+      const startDate = this.convertDateToUTC(new Date(this.startDate)).setHours(0, 0, 0, 0);
       return selectedDate < startDate ? { pastDate: { value: control.value } } : null;
     };
   }
@@ -43,8 +43,19 @@ export class ExcludedDatesService {
   futureDateValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const selectedDate = new Date(control.value).setHours(0, 0, 0, 0);
-      const endDate = new Date(this.endDate).setHours(0, 0, 0, 0);
+      const endDate = this.convertDateToUTC(new Date(this.endDate)).setHours(0, 0, 0, 0);
       return endDate < selectedDate ? { futureDate: { value: control.value } } : null;
     };
+  }
+
+  private convertDateToUTC(date: Date) {
+    return new Date(
+      date.getUTCFullYear(),
+      date.getUTCMonth(),
+      date.getUTCDate(),
+      date.getUTCHours(),
+      date.getUTCMinutes(),
+      date.getUTCSeconds(),
+    );
   }
 }
