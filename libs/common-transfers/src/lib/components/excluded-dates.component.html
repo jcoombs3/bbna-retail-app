@@ -4,11 +4,17 @@
     <span class="bb-dynamic-input__helper-text bb-text-support" *ngIf="options?.helperText" [textContent]="options?.helperText">
     </span>
     <div class="bb-block bb-block--sm">
-      <bb-input-datepicker-ui [formControlName]="config.name" [minDate]="minDate" [maxDate]="maxDate" [overrideDateFormat]="options.overrideDateFormat" [placeholder]="options.placeholder" [btnColor]="options.btnColor || 'link'" [clickOpen]="options.clickOpen || false" [focusOpen]="options.focusOpen || false" [icon]="options.icon || 'calendar'" [iconColor]="options.iconColor" [iconSize]="options.iconSize || 'md'" [markDisabled]="markDisabled.bind(this)" [navigation]="options.navigation || 'arrows'" [placement]="options.placement || 'bottom-left'" [rangeSelection]="options.rangeSelection || false" [firstDayOfWeek]="options.firstDayOfWeek" [readonly]="options.readonly || false" [bbDynamicAriaAttribute]="{
+      <bb-input-datepicker-ui *ngIf="minDate && maxDate" [formControlName]="config.name" [minDate]="minDate" [maxDate]="maxDate" [overrideDateFormat]="options.overrideDateFormat" [placeholder]="options.placeholder" [btnColor]="options.btnColor || 'link'" [clickOpen]="options.clickOpen || false" [focusOpen]="options.focusOpen || false" [icon]="options.icon || 'calendar'" [iconColor]="options.iconColor" [iconSize]="options.iconSize || 'md'" [markDisabled]="markDisabled.bind(this)" [navigation]="options.navigation || 'arrows'" [placement]="options.placement || 'bottom-left'" [rangeSelection]="options.rangeSelection || false" [firstDayOfWeek]="options.firstDayOfWeek" [readonly]="options.readonly || false" [bbDynamicAriaAttribute]="{
           __error: control?.touched && control?.invalid,
           __desc: options?.description
         }" [attr.data-role]="config.name" [aria-labelledby]="inputEl?.id + '__label'" #inputEl>
       </bb-input-datepicker-ui>
+      <div *ngIf="!minDate || !maxDate" class="text-center">
+        <bb-loading-indicator-ui
+          loaderSize="md"
+          inline="true"
+        ></bb-loading-indicator-ui>
+      </div>
     </div>
 
     <bb-payord-validation-message [control]="validationControl" [validationMessages]="validationMessages" [label]="validationLabel" [id]="inputEl?.id + '__error'"></bb-payord-validation-message>

@@ -67,11 +67,13 @@ export class ExcludedDatesComponent implements PaymentFormField, OnInit, OnDestr
   }
 
   get minDate(): NgbDateStruct {
+    if(!this.excludedDateService.startDate) return undefined;
     const today = new Date(this.excludedDateService.startDate);
     return { year: today.getUTCFullYear(), month: today.getUTCMonth() + 1, day: today.getUTCDate() };
   }
 
   get maxDate(): NgbDateStruct {
+    if(!this.excludedDateService.endDate) return undefined;
     const today = new Date(this.excludedDateService.endDate);
     return { year: today.getUTCFullYear(), month: today.getUTCMonth() + 1, day: today.getUTCDate() };
   }
