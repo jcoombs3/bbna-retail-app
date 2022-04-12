@@ -25,17 +25,9 @@ export class ExcludedDatesComponent implements PaymentFormField, OnInit, OnDestr
   control!: AbstractControl;
   validationControl!: FormControl;
 
-  validationLabel = 'Date';
+  validationLabel = 'Execution date';
   validationMessages = [
-    { name: 'excludedDate', message: 'Cannot transfer on this day' },
-    {
-      name: 'dateLessThanMinDate',
-      message: 'Start date cannot be in the past',
-    },
-    {
-      name: 'dateGreaterThanMaxDate',
-      message: 'Start date cannot be this far in the future',
-    },
+    { name: 'excludedDate', message: 'Cannot transfer on this day' }
   ];
   classes = ['d-inline-block', 'col-md-6', 'align-top'];
 
@@ -50,6 +42,10 @@ export class ExcludedDatesComponent implements PaymentFormField, OnInit, OnDestr
       this.options.defaultValue,
       this.config,
     ) as FormControl;
+
+    this.classes = this.options.cssClasses.length ? this.options.cssClasses : this.classes;
+    this.validationLabel = this.options.validationMessageLabel || this.validationLabel;
+    this.validationMessages = [ ...this.validationMessages, ...this.options.validationMessages ];
 
     this.control.setValidators([
       Validators.required
