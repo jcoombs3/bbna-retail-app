@@ -55,27 +55,36 @@ export class ExcludedDatesComponent implements PaymentFormField, OnInit, OnDestr
     triggerHook(PaymentFormFieldHooks.onInit, this);
   }
 
-  markDisabled$ = this.excludedDateService.isDateValid$.pipe(
-    map((isDateValidFn) => {
+  markDisabled$ = this.excludedDateService.isDateExcluded$.pipe(
+    map((isDateExcludedFn) => {
       return (ngb: NgbDate) => {
         const { year, month, day } = ngb;
         const date = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
-        return isDateValidFn(date);
+        return isDateExcludedFn(date);
       }
     })
   )
 
   minDate$: Observable<NgbDateStruct> = this.excludedDateService.startDate$.pipe(
     map((startDate) => {
-      const today = new Date(startDate);
-      return { year: today.getUTCFullYear(), month: today.getUTCMonth() + 1, day: today.getUTCDate() };
+      let date = new Date(startDate);
+
+      const pastDateValidatorApplied = this.options.validators.filter((validator) => validator.name === 'pastDateValidator').length;
+      if(pastDateValidatorApplied) {
+        const today = new Date().setHours(0, 0, 0, 0);
+        if(today > new Date(startDate).setHours(0, 0, 0, 0)) {
+          return { year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate() };
+        }
+      }
+
+      return { year: date.getUTCFullYear(), month: date.getUTCMonth() + 1, day: date.getUTCDate() };
     })
   )
 
   maxDate$: Observable<NgbDateStruct> = this.excludedDateService.endDate$.pipe(
     map((endDate) => {
-      const today = new Date(endDate);
-      return { year: today.getUTCFullYear(), month: today.getUTCMonth() + 1, day: today.getUTCDate() };
+      const date = new Date(endDate);
+      return { year: date.getUTCFullYear(), month: date.getUTCMonth() + 1, day: date.getUTCDate() };
     })
   )
 

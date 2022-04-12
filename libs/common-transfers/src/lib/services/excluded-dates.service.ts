@@ -12,7 +12,7 @@ export class ExcludedDatesService {
 
   startDate$ = this.restrictedDates$.pipe(map((dates: RestrictedDates) => dates.startDate));
   endDate$ = this.restrictedDates$.pipe(map((dates: RestrictedDates) => dates.endDate));
-  isDateValid$: Observable<(date: string) => boolean> = this.restrictedDates$.pipe(
+  isDateExcluded$: Observable<(date: string) => boolean> = this.restrictedDates$.pipe(
     map((dates) => {
       return (date: string) => dates.restrictedDates.includes(date);
     })
@@ -26,7 +26,7 @@ export class ExcludedDatesService {
       let month = selectedDate.getUTCMonth() + 1;
       let day = selectedDate.getUTCDate();
       let year = selectedDate.getUTCFullYear();
-      return this.isDateValid$.pipe(
+      return this.isDateExcluded$.pipe(
        map((validFn: (date: string) => boolean) => {
         const errors = validFn(`${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`)
         ? { excludedDate: { value: control.value } } : null;      

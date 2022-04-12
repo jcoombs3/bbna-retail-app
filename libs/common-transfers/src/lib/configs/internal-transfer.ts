@@ -87,15 +87,15 @@ export const customScheduleConfig: PaymentFormGroup = {
         validationMessages: [
           {
             name: 'pastDate',
-            message: $localize`:@@default-config.past-date-error-message:Start date cannot be in the past`,
+            message: $localize`:@@default-config.past-date-error-message:Selected date cannot be in the past`,
           },
           {
             name: 'dateLessThanMinDate',
-            message: $localize`:@@default-config.min-date-error-message:Start date cannot be in the past`,
+            message: $localize`:@@default-config.min-date-error-message:Selected date is before the earliest valid date`,
           },
           {
             name: 'dateGreaterThanMaxDate',
-            message: $localize`:@@default-config.max-date-error-message:Start date cannot be this far in the future`,
+            message: $localize`:@@default-config.max-date-error-message:Selected date is after the latest valid date`,
           }
         ],
       },

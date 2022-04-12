@@ -27,9 +27,9 @@ export const RestrictedDatesHttpServiceMocksProvider: Provider = createMocks(
             {
                 status: 200,
                 body: {
-                    startDate: '2022-04-04',
-                    endDate: '2022-04-17',
-                    restrictedDates: ['2022-04-10', '2022-04-11', '2022-04-12', '2022-04-13']
+                    startDate: '2022-04-05',
+                    endDate: '2022-04-30',
+                    restrictedDates: ['2022-04-20', '2022-04-21', '2022-04-22', '2022-04-23']
                 }
                },
     ]
