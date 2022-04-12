@@ -47,9 +47,6 @@ export class ExcludedDatesComponent implements PaymentFormField, OnInit, OnDestr
     this.validationLabel = this.options.validationMessageLabel || this.validationLabel;
     this.validationMessages = [ ...this.validationMessages, ...this.options.validationMessages ];
 
-    this.control.setValidators([
-      Validators.required
-    ]);
     this.control.setAsyncValidators([
       this.excludedDateService.excludedDateValidator()
     ])
