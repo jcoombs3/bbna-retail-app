@@ -76,7 +76,7 @@ export class ExcludedDatesComponent implements PaymentFormField, OnInit, OnDestr
           return { year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate() };
         }
       }
-
+      console.log({ year: date.getUTCFullYear(), month: date.getUTCMonth() + 1, day: date.getUTCDate() });
       return { year: date.getUTCFullYear(), month: date.getUTCMonth() + 1, day: date.getUTCDate() };
     })
   )

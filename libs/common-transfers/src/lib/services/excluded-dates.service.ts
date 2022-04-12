@@ -14,6 +14,7 @@ export class ExcludedDatesService {
   endDate$ = this.restrictedDates$.pipe(map((dates: RestrictedDates) => dates.endDate));
   isDateExcluded$: Observable<(date: string) => boolean> = this.restrictedDates$.pipe(
     map((dates) => {
+      if(!dates.restrictedDates) return (_date: string) => false;
       return (date: string) => dates.restrictedDates.includes(date);
     })
   )
