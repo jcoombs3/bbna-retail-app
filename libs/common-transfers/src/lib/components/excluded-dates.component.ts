@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, AbstractControl, FormControl, Validators } from '@angular/forms';
+import { FormGroup, AbstractControl, FormControl } from '@angular/forms';
 import {
   PaymentFormFieldConfig,
   PaymentFormField,
@@ -26,9 +26,7 @@ export class ExcludedDatesComponent implements PaymentFormField, OnInit, OnDestr
   validationControl!: FormControl;
 
   validationLabel = 'Execution date';
-  validationMessages = [
-    { name: 'excludedDate', message: 'Cannot transfer on this day' }
-  ];
+  validationMessages = [{ name: 'excludedDate', message: 'Cannot transfer on this day' }];
   classes = ['d-inline-block', 'col-md-6', 'align-top'];
 
   constructor(private excludedDateService: ExcludedDatesService) {}
@@ -45,11 +43,9 @@ export class ExcludedDatesComponent implements PaymentFormField, OnInit, OnDestr
 
     this.classes = this.options.cssClasses.length ? this.options.cssClasses : this.classes;
     this.validationLabel = this.options.validationMessageLabel || this.validationLabel;
-    this.validationMessages = [ ...this.validationMessages, ...this.options.validationMessages ];
+    this.validationMessages = [...this.validationMessages, ...this.options.validationMessages];
 
-    this.control.setAsyncValidators([
-      this.excludedDateService.excludedDateValidator()
-    ])
+    this.control.setAsyncValidators([this.excludedDateService.excludedDateValidator()]);
     this.control.updateValueAndValidity();
     this.validationControl = this.group.controls[this.config?.name] as FormControl;
     triggerHook(PaymentFormFieldHooks.onInit, this);
@@ -61,32 +57,34 @@ export class ExcludedDatesComponent implements PaymentFormField, OnInit, OnDestr
         const { year, month, day } = ngb;
         const date = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
         return isDateExcludedFn(date);
-      }
-    })
-  )
+      };
+    }),
+  );
 
   minDate$: Observable<NgbDateStruct> = this.excludedDateService.startDate$.pipe(
     map((startDate) => {
       let date = new Date(startDate);
 
-      const pastDateValidatorApplied = this.options.validators.filter((validator) => validator.name === 'pastDateValidator').length;
-      if(pastDateValidatorApplied) {
+      const pastDateValidatorApplied = this.options.validators.filter(
+        (validator) => validator.name === 'pastDateValidator',
+      ).length;
+      if (pastDateValidatorApplied) {
         const today = new Date().setHours(0, 0, 0, 0);
-        if(today > new Date(startDate).setHours(0, 0, 0, 0)) {
+        if (today > new Date(startDate).setHours(0, 0, 0, 0)) {
           return { year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate() };
         }
       }
-      console.log({ year: date.getUTCFullYear(), month: date.getUTCMonth() + 1, day: date.getUTCDate() });
+
       return { year: date.getUTCFullYear(), month: date.getUTCMonth() + 1, day: date.getUTCDate() };
-    })
-  )
+    }),
+  );
 
   maxDate$: Observable<NgbDateStruct> = this.excludedDateService.endDate$.pipe(
     map((endDate) => {
       const date = new Date(endDate);
       return { year: date.getUTCFullYear(), month: date.getUTCMonth() + 1, day: date.getUTCDate() };
-    })
-  )
+    }),
+  );
 
   ngOnDestroy() {
     triggerHook(PaymentFormFieldHooks.onDestroy, this);
