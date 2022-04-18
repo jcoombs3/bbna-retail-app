@@ -1,41 +1,40 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, ValidationErrors, AsyncValidatorFn } from '@angular/forms';
+import { RestrictedDatesHttpService, RestrictedDates } from '../../../../transfers-dates-http-ang/src';
+import { map, shareReplay } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class ExcludedDatesService {
-  excludedDates = ['2022-02-10', '2022-02-11', '2022-02-12', '2022-02-13'];
-  startDate = new Date().toISOString();
-  endDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString();
+  restrictedDates$: Observable<RestrictedDates> = this.restrictedDatesHttpService
+    .restrictedDatesGet()
+    .pipe(shareReplay());
 
-  isDateValid(date: string) {
-    return this.excludedDates.includes(date);
-  }
+  startDate$ = this.restrictedDates$.pipe(map((dates: RestrictedDates) => dates.startDate));
+  endDate$ = this.restrictedDates$.pipe(map((dates: RestrictedDates) => dates.endDate));
+  isDateExcluded$: Observable<(date: string) => boolean> = this.restrictedDates$.pipe(
+    map((dates) => {
+      if (!dates.restrictedDates) return (_date: string) => false;
+      return (date: string) => dates.restrictedDates.includes(date);
+    }),
+  );
 
-  excludedDateValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
+  constructor(private restrictedDatesHttpService: RestrictedDatesHttpService) {}
+
+  excludedDateValidator(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors> | null => {
       const selectedDate = new Date(control.value);
-      var month = selectedDate.getUTCMonth() + 1;
-      var day = selectedDate.getUTCDate();
-      var year = selectedDate.getUTCFullYear();
-      return this.isDateValid(`${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`)
-        ? { excludedDate: { value: control.value } }
-        : null;
-    };
-  }
-
-  pastDateValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const selectedDate = new Date(control.value).setHours(0, 0, 0, 0);
-      const startDate = new Date(this.startDate).setHours(0, 0, 0, 0);
-      return selectedDate < startDate ? { pastDate: { value: control.value } } : null;
-    };
-  }
-
-  futureDateValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const selectedDate = new Date(control.value).setHours(0, 0, 0, 0);
-      const endDate = new Date(this.endDate).setHours(0, 0, 0, 0);
-      return endDate < selectedDate ? { futureDate: { value: control.value } } : null;
+      let month = selectedDate.getUTCMonth() + 1;
+      let day = selectedDate.getUTCDate();
+      let year = selectedDate.getUTCFullYear();
+      return this.isDateExcluded$.pipe(
+        map((validFn: (date: string) => boolean) => {
+          const errors = validFn(`${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`)
+            ? { excludedDate: { value: control.value } }
+            : null;
+          return errors;
+        }),
+      );
     };
   }
 }
