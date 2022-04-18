@@ -1,0 +1,23 @@
+{
+  "projectType": "library",
+  "root": "libs/common-transfers",
+  "sourceRoot": "libs/common-transfers/src",
+  "prefix": "bb",
+  "targets": {
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "libs/common-transfers/src/test.ts",
+        "tsConfig": "libs/common-transfers/tsconfig.spec.json",
+        "karmaConfig": "libs/common-transfers/karma.conf.js"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/common-transfers/src/**/*.ts", "libs/common-transfers/src/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

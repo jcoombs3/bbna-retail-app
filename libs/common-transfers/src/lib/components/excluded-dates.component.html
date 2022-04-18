@@ -1,0 +1,32 @@
+<div *ngIf="!config?.hidden" class="bb-dynamic-input form-group" [formGroup]="group" [ngClass]="classes">
+  <div>
+    <label class="bb-dynamic-input__label" [id]="inputEl?.id + '__label'" [textContent]="options?.label || ''" #labelElem></label>
+    <span class="bb-dynamic-input__helper-text bb-text-support" *ngIf="options?.helperText" [textContent]="options?.helperText">
+    </span>
+    <div class="bb-block bb-block--sm">
+      <ng-container *ngIf="minDate$ | async as minDate; else loading">
+        <ng-container *ngIf="maxDate$ | async as maxDate; else loading">
+          <ng-container *ngIf="markDisabled$ | async as markDisabled; else loading">
+            <bb-input-datepicker-ui [formControlName]="config.name" [minDate]="minDate" [maxDate]="maxDate" [overrideDateFormat]="options.overrideDateFormat" [placeholder]="options.placeholder" [btnColor]="options.btnColor || 'link'" [clickOpen]="options.clickOpen || false" [focusOpen]="options.focusOpen || false" [icon]="options.icon || 'calendar'" [iconColor]="options.iconColor" [iconSize]="options.iconSize || 'md'" [markDisabled]="markDisabled" [navigation]="options.navigation || 'arrows'" [placement]="options.placement || 'bottom-left'" [rangeSelection]="options.rangeSelection || false" [firstDayOfWeek]="options.firstDayOfWeek" [readonly]="options.readonly || false" [bbDynamicAriaAttribute]="{
+              __error: control?.touched && control?.invalid,
+              __desc: options?.description
+            }" [attr.data-role]="config.name" [aria-labelledby]="inputEl?.id + '__label'" #inputEl>
+            </bb-input-datepicker-ui>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+      <ng-template #loading>
+        <div class="text-center">
+          <bb-loading-indicator-ui
+            loaderSize="md"
+            inline="true"
+          ></bb-loading-indicator-ui>
+        </div>
+      </ng-template>
+    </div>
+
+    <bb-payord-validation-message [control]="validationControl" [validationMessages]="validationMessages" [label]="validationLabel" [id]="inputEl?.id + '__error'"></bb-payord-validation-message>
+
+    <div class="bb-dynamic-input__desc bb-text-support bb-subtitle" [attr.aria-hidden]="!options?.description" [hidden]="!options?.description" [id]="inputEl?.id + '__desc'" [textContent]="options?.description || ''" #descElem></div>
+  </div>
+</div>

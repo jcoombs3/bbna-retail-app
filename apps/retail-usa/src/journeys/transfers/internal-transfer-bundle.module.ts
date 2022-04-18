@@ -4,14 +4,14 @@ import {
   INITIATE_PAYMENT_CONFIG,
   InitiatePaymentJourneyModule,
   INITIATE_PAYMENT_JOURNEY_COMMUNICATOR,
-  INTERNAL_TRANSFER,
   PayordOmniPaymentConfigProvider,
 } from '@backbase/initiate-payment-journey-ang';
 import { PaymentsCommunicationService } from '../../communication/payments-communication.service';
 import { ReviewScreens } from '@backbase/payment-orders-ang';
+import { CommonTransfersModule, INTERNAL_TRANSFER } from '@backbase/common-transfers';
 
 @NgModule({
-  imports: [InitiatePaymentJourneyModule.forRoot()],
+  imports: [CommonTransfersModule, InitiatePaymentJourneyModule.forRoot()],
   providers: [
     PayordOmniPaymentConfigProvider,
     IdentityManagementServiceMocksProvider,

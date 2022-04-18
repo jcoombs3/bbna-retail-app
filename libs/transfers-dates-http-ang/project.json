@@ -1,0 +1,23 @@
+{
+  "projectType": "library",
+  "root": "libs/transfers-dates-http-ang",
+  "sourceRoot": "libs/transfers-dates-http-ang/src",
+  "prefix": "bb",
+  "targets": {
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "libs/transfers-dates-http-ang/src/test.ts",
+        "tsConfig": "libs/transfers-dates-http-ang/tsconfig.spec.json",
+        "karmaConfig": "libs/transfers-dates-http-ang/karma.conf.js"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/transfers-dates-http-ang/src/**/*.ts", "libs/transfers-dates-http-ang/src/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

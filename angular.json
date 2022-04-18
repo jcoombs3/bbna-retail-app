@@ -2,7 +2,9 @@
   "version": 2,
   "projects": {
     "common-banking": "libs/common-banking",
+    "common-transfers": "libs/common-transfers",
     "retail-usa": "apps/retail-usa",
-    "retail-usa-e2e": "apps/retail-usa-e2e"
+    "retail-usa-e2e": "apps/retail-usa-e2e",
+    "transfers-dates-http-ang": "libs/transfers-dates-http-ang"
   }
 }

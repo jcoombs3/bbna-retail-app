@@ -81,6 +81,7 @@ import { productSummaryContextArrangementsMocks } from './mock-data';
 import { SummaryMockInterceptor } from '../mocks/summary-mock-interceptor.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FinancialInstitutionManagerClientHttpServiceMocksProvider } from '@backbase/data-ang/financial-institution-manager';
+import { RestrictedDatesHttpServiceMocksProvider } from '@backbase/transfers-dates-http-ang';
 
 const ProductSummaryContextArrangementsMockProvider = createMocks([
   {
@@ -163,4 +164,5 @@ export const mockProviders: Provider[] = [
   UsersHttpServiceGetArrangementUserPrivilegesMocksProvider,
   PaymentTemplatesHttpServiceMocksProvider,
   FinancialInstitutionManagerClientHttpServiceMocksProvider,
+  RestrictedDatesHttpServiceMocksProvider
 ];
